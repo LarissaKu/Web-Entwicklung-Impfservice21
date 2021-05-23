@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SshConfigs">
+    <configs>
+      <sshConfig authType="PASSWORD" host="impfservice21.s1810456017.student.kwmhgb.at" id="71caee0b-3dab-4be4-9022-05c82b458e43" port="222" nameFormat="DESCRIPTIVE" username="sstud408" />
+    </configs>
+  </component>
+</project>
