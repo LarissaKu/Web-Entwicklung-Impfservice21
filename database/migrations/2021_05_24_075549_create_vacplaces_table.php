@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateVacdatesTable extends Migration
+class CreateVacplacesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ class CreateVacdatesTable extends Migration
      */
     public function up()
     {
-        Schema::create('vacdates', function (Blueprint $table) {
+        Schema::create('vacplaces', function (Blueprint $table) {
             $table->id();
-            $table->date('vacday');
-            $table->time('start');
-            $table->time('end');
-            $table->integer('maxPersons')->default(15);
-            $table->string('vaccine')->default('Pfizer');
+            $table->string('fedstate');
+            $table->string('zip');
+            $table->string('city');
+            $table->string('adress');
             $table->timestamps();
         });
     }
@@ -31,6 +30,6 @@ class CreateVacdatesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('vacdates');
+        Schema::dropIfExists('vacplaces');
     }
 }
