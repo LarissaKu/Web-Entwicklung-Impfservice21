@@ -17,6 +17,10 @@ class VacdatesTableSeeder extends Seeder
      */
     public function run()
     {
+        //get users
+        $users = \App\Models\User::all();
+
+        //add first vacdate
         $vacdate = new \App\Models\Vacdate;
         $vacdate->vacday = "2021-08-21";
         $vacdate->start = "12:20:00";
@@ -24,8 +28,15 @@ class VacdatesTableSeeder extends Seeder
         $vacdate->maxpersons = 15;
         $vacdate->vaccine = "Moderna";
 
-        $vacdate->vacplace()->associate(1);
+        //add vacplace via id
+        $vacdate->vacplace()->associate(2);
         $vacdate->save();
+
+        //add first vacdate
+        $user =  $users->where('id', 2);
+        $user2 =  $users->where('id', 3);
+        $vacdate->users()->attach($user);
+        $vacdate->users()->attach($user2);
 
         $vacdate1 = new \App\Models\Vacdate;
         $vacdate1->vacday = "2021-08-21";
@@ -34,8 +45,6 @@ class VacdatesTableSeeder extends Seeder
         $vacdate1->maxpersons = 2;
         $vacdate1->vaccine = "Pfizer";
 
-        $vacdate1->vacplace()->associate(2);
-        $vacdate1->save();
 
         $vacdate2 = new \App\Models\Vacdate;
         $vacdate2->vacday = "2021-08-22";
