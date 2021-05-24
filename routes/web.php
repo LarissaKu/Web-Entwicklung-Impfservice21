@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +15,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    //return view('welcome')->with('name','Larissa'); //only for one variable
+    $vacdates = DB::table('vacdates')->get();
+    return $vacdates;
+    //return view('welcome', compact('vacdates'));
 });
