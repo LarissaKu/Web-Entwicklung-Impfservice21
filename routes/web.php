@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
+use App\Models\Vacdate;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +18,16 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     //return view('welcome')->with('name','Larissa'); //only for one variable
     $vacdates = DB::table('vacdates')->get();
-    return $vacdates;
-    //return view('welcome', compact('vacdates'));
+    //return $vacdates;
+    return view('welcome', compact('vacdates'));
+});
+
+Route::get('/vacdates/', function () {
+    $vacdates = Vacdate::all();
+    return view('vacdates.index', compact('vacdates'));
+});
+
+Route::get('/vacdates/{id}', function ($id) {
+    $vacdate = Vacdate::find($id);
+    return view('vacdates.show', compact('vacdate'));
 });
