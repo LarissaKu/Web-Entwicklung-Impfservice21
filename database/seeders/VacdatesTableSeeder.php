@@ -56,11 +56,7 @@ class VacdatesTableSeeder extends Seeder
         $vacdate2->vacplace()->associate(3);
         $vacdate2->save();
 
-
-
-
-
-            //'vacday','start','end','maxPersons','vaccine','vacplace','user_id'
+        //'vacday','start','end','maxPersons','vaccine','vacplace','user_id'
 
         /*DB::table('vacdates')->insert([
             'vacday' => date("Y-m-d H:i:s"),

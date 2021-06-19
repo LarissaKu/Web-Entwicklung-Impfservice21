@@ -18,7 +18,7 @@ class CreateVacdatesTable extends Migration
             $table->date('vacday');
             $table->time('start');
             $table->time('end');
-            $table->integer('maxpersons')->default(15);
+            $table->integer('maxpersons')->default(3);
             $table->string('vaccine')->default('Pfizer');
             $table->foreignId('vacplace_id')->constrained()->onDelete('cascade');
             $table->timestamps();

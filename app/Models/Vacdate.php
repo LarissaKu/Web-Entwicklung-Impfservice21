@@ -15,7 +15,7 @@ class Vacdate extends Model
      * The attributes that are mass assignable
      * @var array
      */
-    protected $fillable = ['vacday','start','end','maxpersons','vaccine','vacplace','user_id'];
+    protected $fillable = ['vacday','start','end','maxpersons','vaccine','vacplace_id','user_id'];
 
     public function isVacdateFree() : bool{
         return $this->maxpersons >= 35;

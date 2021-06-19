@@ -1,0 +1,108 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Vacdate;
+use App\Models\Vacplace;
+use Illuminate\Http\Request;
+use phpDocumentor\Reflection\Types\Integer;
+use Illuminate\Http\JsonResponse;
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
+
+
+class VacdateController extends Controller
+{
+    public function index(){
+        //load all vacdates and relations
+        $vacdates = Vacdate::with('users', 'vacplace')->get();
+        return $vacdates;
+    }
+
+    public function findById(int $id){
+        $vacdate = Vacdate::where('id',$id)->with(['users', 'vacplace'])->first();
+        return $vacdate;
+    }
+
+    //create new Vacdate
+    public function save(Request $request) : JsonResponse  {
+        $request = $this->parseRequest($request);
+        /*+
+        *  use a transaction for saving model including relations
+        * if one query fails, complete SQL statements will be rolled back
+        */
+        DB::beginTransaction();
+        try {
+            $vacdate = Vacdate::create($request->all());
+            DB::commit();
+            // return a vaild http response
+            return response()->json($vacdate, 201);
+        }
+        catch (\Exception $e) {
+            // rollback all queries
+            DB::rollBack();
+            return response()->json("Impftermin speichern fehlgeschlagen: " . $e->getMessage(), 420);
+        }
+    }
+
+    //update vacdate
+    public function update(Request $request, string $id) : JsonResponse
+    {
+        DB::beginTransaction();
+        try {
+            $vacdate = Vacdate::with(['users', 'vacplace'])
+                ->where('id', $id)->first();
+            if ($vacdate != null) {
+                $request = $this->parseRequest($request);
+                $vacdate->update($request->all());
+
+                //update vacdate
+                $ids = [];
+                if (isset($request['users']) && is_array($request['users'])) {
+                    foreach ($request['users'] as $user) {
+                        array_push($ids, $user['id']);
+                    }
+                }
+                //foreach mit ids attachen und save
+                foreach ($ids as $i) {
+                    $vacdate->users()->attach($i);
+                    $vacdate->save();
+                }
+            }
+            else{
+                 throw new \Exception("Vaccination date does not exist");
+            }
+
+            DB::commit();
+            $vacdate1 = Vacdate::with(['vacplace', 'users'])
+                ->where('id', $id)->first();
+            // return a vaild http response
+            return response()->json($vacdate1, 201);
+        }
+        catch (\Exception $e) {
+            // rollback all queries
+            DB::rollBack();
+            return response()->json("updating vaccination date failed: " . $e->getMessage(), 420);
+        }
+    }
+
+    //returns 200 if vacdate was deleted successfully, throws excpetion if not
+    public function delete(string $id) : JsonResponse
+    {
+        $vacdate = Vacdate::where('id', $id)->first();
+        if ($vacdate != null) {
+            $vacdate->delete();
+        }
+        else
+            throw new \Exception("book couldn't be deleted - it does not exist");
+        return response()->json('vaccination date (' . $id . ') successfully deleted', 200);
+    }
+
+    //modify / convert values if needed
+    private function parseRequest(Request $request):Request{
+        //get date and convert it - its in ISO 8601, e.g. "2018-01-01T23:00:00.00Z"
+        $date = new \DateTime($request->published);
+        $request['published'] = $date;
+        return $request;
+    }
+}

@@ -33,5 +33,12 @@ class VacplacesTableSeeder extends Seeder
         $vacplace2->city = "Innsbruck";
         $vacplace2->adress = "Winterstrasse 3";
         $vacplace2->save();
+
+        $vacplace3 = new \App\Models\Vacplace;
+        $vacplace3->fedstate = "Vorarlberg";
+        $vacplace3->zip = "6482";
+        $vacplace3->city = "Villach";
+        $vacplace3->adress = "Pizzastrasse 17b";
+        $vacplace3->save();
     }
 }
