@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Vacdate;
 use App\Models\Vacplace;
+use http\Env\Response;
 use Illuminate\Http\Request;
 use phpDocumentor\Reflection\Types\Integer;
 use Illuminate\Http\JsonResponse;
@@ -46,7 +47,7 @@ class VacdateController extends Controller
     }
 
     //update vacdate
-    public function update(Request $request, string $id) : JsonResponse
+    public function update(Request $request, int $id) : JsonResponse
     {
         DB::beginTransaction();
         try {
@@ -70,7 +71,7 @@ class VacdateController extends Controller
                 }
             }
             else{
-                 throw new \Exception("Vaccination date does not exist");
+                 throw new \Exception("Impftermin existiert nicht");
             }
 
             DB::commit();
@@ -82,20 +83,27 @@ class VacdateController extends Controller
         catch (\Exception $e) {
             // rollback all queries
             DB::rollBack();
-            return response()->json("updating vaccination date failed: " . $e->getMessage(), 420);
+            return response()->json("Updaten des Impftermins ist fehlgeschlagen: " . $e->getMessage(), 420);
         }
     }
 
     //returns 200 if vacdate was deleted successfully, throws excpetion if not
-    public function delete(string $id) : JsonResponse
+    public function delete(int $id) : JsonResponse
     {
-        $vacdate = Vacdate::where('id', $id)->first();
-        if ($vacdate != null) {
-            $vacdate->delete();
+        try {
+            $vacdate = Vacdate::where('id', $id)->first();
+
+            if ($vacdate != null) {
+                $vacdate->delete();
+            } else{
+                throw new \Exception("Impftermin konnte nicht gelöscht werden - er existiert nicht");
         }
-        else
-            throw new \Exception("book couldn't be deleted - it does not exist");
         return response()->json('vaccination date (' . $id . ') successfully deleted', 200);
+    }
+    catch (\Exception $e){
+        DB:rollBack();
+        return response()->json('Löschen des Impftermins ist fehlgeschlagen: '. $e->getMessage(), 420);
+        }
     }
 
     //modify / convert values if needed
