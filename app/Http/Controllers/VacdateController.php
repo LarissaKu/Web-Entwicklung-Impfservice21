@@ -10,6 +10,7 @@ use phpDocumentor\Reflection\Types\Integer;
 use Illuminate\Http\JsonResponse;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Psy\Util\Json;
 
 
 class VacdateController extends Controller
@@ -103,6 +104,45 @@ class VacdateController extends Controller
     catch (\Exception $e){
         DB:rollBack();
         return response()->json('Löschen des Impftermins ist fehlgeschlagen: '. $e->getMessage(), 420);
+        }
+    }
+
+    public function addUsersToVacdate(Request $request, int $id):JsonResponse{
+        DB::beginTransaction();
+        try{
+            $vacdate = Vacdate::with(['vacplace', 'users'])->where('id', $id)->first();
+
+            $request = $this->parseRequest($request);
+            $uid = $request['user_id'];
+
+            $user = User::where('id', $uid)->first();
+
+            if($vacdate != null){
+                if(count($vacdate['users']) != $vacdate['maxPersons']){
+                    if($user!= null){
+                        if(count($user['users']) == 0){
+                            $vacdate->users()->attach($user['id']);
+                            $vacdate->save();
+                        } else{
+                            throw new \Exception('Benutzer ist bereits registiert');
+                        }
+                    } else{
+                        throw new \Exception('Benutzer existiert nicht');
+                    }
+                } else{
+                    throw new \Exception('Die maximale Anzahl an Benutzern für das Impfdatum ist erreicht');
+                }
+            } else{
+                throw new \Exception('Das Impfdatum existiert nicht');
+            }
+
+            DB::commit();
+            $vacdate1 = Vacdate::with(['vacPlace', 'users'])->where('id', $id)->first();
+            return response()->json($vacdate1, 201);
+        }
+        catch (\Exception $e){
+            DB::rollBack();
+            return response()->json('Das Speichern des Impftermins ist fehlgeschlagen: '. $e->getMessage(), 420);
         }
     }
 

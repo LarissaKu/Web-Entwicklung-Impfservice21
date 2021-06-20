@@ -25,12 +25,11 @@ Route::post('auth/login', [\App\Http\Controllers\AuthController::class, 'login']
 Route::get('vacdates', [VacdateController::class, 'index']);
 Route::get('vacdate/{id}', [VacdateController::class, 'findById']);
 
-//add users to vacdate
+//add users to vacdate TODO
 Route::put('vacdate/registration/{id}', [VacdateController::class, 'addUsersToVacdate']);
 
-
 //get all users
-Route::get('user/{id}', [UserController::class, 'getAllUsersToVacdate']);
+Route::get('user/{id}', [UserController::class, 'getUsersById']);
 
 //get user by id - für login -> user anzeigen zu impfung
 
