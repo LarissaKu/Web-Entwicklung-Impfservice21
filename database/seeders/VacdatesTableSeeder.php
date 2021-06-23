@@ -23,13 +23,13 @@ class VacdatesTableSeeder extends Seeder
         //add first vacdate
         $vacdate = new \App\Models\Vacdate;
         $vacdate->vacday = "2021-08-21";
-        $vacdate->start = "12:20:00";
-        $vacdate->end = "12:30:00";
+        $vacdate->start = "12:20";
+        $vacdate->end = "12:30";
         $vacdate->maxpersons = 15;
         $vacdate->vaccine = "Moderna";
 
         //add vacplace via id
-        $vacdate->vacplace()->associate(2);
+        $vacdate->vacplaces()->associate(2);
         $vacdate->save();
 
         //add first vacdate
@@ -40,21 +40,30 @@ class VacdatesTableSeeder extends Seeder
 
         $vacdate1 = new \App\Models\Vacdate;
         $vacdate1->vacday = "2021-08-21";
-        $vacdate1->start = "12:40:00";
-        $vacdate1->end = "12:50:00";
+        $vacdate1->start = "12:40";
+        $vacdate1->end = "12:50";
         $vacdate1->maxpersons = 2;
         $vacdate1->vaccine = "Pfizer";
+
+        $vacdate1->vacplaces()->associate(2);
+        $vacdate1->save();
+
+        $user3 =  $users->where('id', 1);
+        $vacdate1->users()->attach($user3);
 
 
         $vacdate2 = new \App\Models\Vacdate;
         $vacdate2->vacday = "2021-08-22";
-        $vacdate2->start = "13:40:00";
-        $vacdate2->end = "14:50:00";
+        $vacdate2->start = "13:40";
+        $vacdate2->end = "14:50";
         $vacdate2->maxpersons = 5;
         $vacdate2->vaccine = "Moderna";
 
-        $vacdate2->vacplace()->associate(3);
+        $vacdate2->vacplaces()->associate(3);
         $vacdate2->save();
+
+        $user4 =  $users->where('id', 2);
+        $vacdate2->users()->attach($user4);
 
         //'vacday','start','end','maxPersons','vaccine','vacplace','user_id'
 

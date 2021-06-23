@@ -21,8 +21,9 @@ class UsersTableSeeder extends Seeder
         $user->svnr = "7985 051098";
         $user->email = "susi@maier.at";
         $user->phone = "+43 660 7894561";
-        $user->dose = 0;
+        $user->vaccinated = true;
         $user->password = bcrypt('susim');
+        $user->admin = true;
         $user->save();
 
         $user1 = new \App\Models\User;
@@ -33,8 +34,9 @@ class UsersTableSeeder extends Seeder
         $user1->svnr = "7932 180358";
         $user1->email = "max@zimmer.at";
         $user1->phone = "+43 660 4336862";
-        $user1->dose = 1;
+        $user1->vaccinated = false;
         $user1->password = bcrypt('maxz');
+        $user1->admin = false;
         $user1->save();
 
         $user2 = new \App\Models\User;
@@ -45,8 +47,9 @@ class UsersTableSeeder extends Seeder
         $user2->svnr = "5411 130701";
         $user2->email = "alex@schmidt.at";
         $user2->phone = "+43 664 3156843";
-        $user2->dose = 2;
+        $user2->vaccinated = false;
         $user2->password = bcrypt('alexs');
+        $user2->admin = false;
         $user2->save();
 
         $user3 = new \App\Models\User;
@@ -57,8 +60,9 @@ class UsersTableSeeder extends Seeder
         $user3->svnr = "9782 150894";
         $user3->email = "hans@holzberger.at";
         $user3->phone = "+43 650 4622645";
-        $user3->dose = 1;
+        $user3->vaccinated = true;
         $user3->password = bcrypt('hansh');
+        $user3->admin = true;
         $user3->save();
     }
 }

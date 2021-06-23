@@ -20,7 +20,7 @@ class UserController extends Controller
     }
 
 
-    public function changeDoseState(Request $request, int $user_id):JsonResponse{
+    public function changeVacState(Request $request, int $user_id):JsonResponse{
         DB::beginTransaction();
 
         try{

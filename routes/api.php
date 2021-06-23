@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\VacplaceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\VacdateController;
@@ -23,7 +24,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('auth/login', [\App\Http\Controllers\AuthController::class, 'login']);
 
 Route::get('vacdates', [VacdateController::class, 'index']);
-Route::get('vacdate/{id}', [VacdateController::class, 'findById']);
+Route::get('vacdates/{id}', [VacdateController::class, 'findById']);
+
+Route::get('vacplaces', [VacplaceController::class, 'index']);
 
 //add users to vacdate TODO
 Route::put('vacdate/registration/{id}', [VacdateController::class, 'addUsersToVacdate']);
@@ -35,7 +38,7 @@ Route::get('user/{id}', [UserController::class, 'getUsersById']);
 
 
 //Hier alle Routen rein geben, die nur für authentifizierte User zugänglich sein sollen
-//Route::group(['middleware'=>['api', 'auth.jwt']], function(){
+Route::group(['middleware'=>['api', 'auth.jwt']], function(){
     //create new vacdate
     Route::post('vacdate', [VacdateController::class,'save']);
 
@@ -46,8 +49,8 @@ Route::get('user/{id}', [UserController::class, 'getUsersById']);
     Route::delete('vacdate/{id}', [VacdateController::class, 'delete']);
 
     //update user dose
-    Route::put('vacdate/user/{user_id}', [UserController::class, 'changeDoseState']);
+    Route::put('vacdate/user/{user_id}', [UserController::class, 'changeVacState']);
 
     //logout
     Route::post('auth/logout', [\App\Http\Controllers\AuthController::class, 'logout']);
-//});
+});

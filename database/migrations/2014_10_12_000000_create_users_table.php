@@ -23,8 +23,9 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('phone');
             $table->timestamp('email_verified_at')->nullable();
-            $table->integer('dose');
+            $table->boolean('vaccinated');
             $table->string('password');
+            $table->boolean('admin');
             $table->rememberToken();
             $table->timestamps();
         });

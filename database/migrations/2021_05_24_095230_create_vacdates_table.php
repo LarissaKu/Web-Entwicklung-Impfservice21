@@ -16,11 +16,12 @@ class CreateVacdatesTable extends Migration
         Schema::create('vacdates', function (Blueprint $table) {
             $table->id();
             $table->date('vacday');
-            $table->time('start');
-            $table->time('end');
+            $table->string('start');
+            $table->string('end');
             $table->integer('maxpersons')->default(3);
             $table->string('vaccine')->default('Pfizer');
-            $table->foreignId('vacplace_id')->constrained()->onDelete('cascade');
+            $table->bigInteger('vacplace')->unsigned();
+            $table->foreign('vacplace')->references('id')->on('vacplaces')->onDelete('cascade');
             $table->timestamps();
         });
     }
