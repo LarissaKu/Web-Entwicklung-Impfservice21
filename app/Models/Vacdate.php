@@ -17,10 +17,6 @@ class Vacdate extends Model
      */
     protected $fillable = ['vacday', 'start','end','maxpersons','vaccine','vacplace_id','user_id'];
 
-    public function isVacdateFree() : bool{
-        return $this->maxpersons >= 35;
-    }
-
     /**
      * places has many dates, dates belong to one place
      */

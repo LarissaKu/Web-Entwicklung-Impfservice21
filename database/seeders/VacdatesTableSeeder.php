@@ -33,9 +33,9 @@ class VacdatesTableSeeder extends Seeder
         $vacdate->save();
 
         //add first vacdate
-        $user =  $users->where('id', 2);
+        //$user =  $users->where('id', 2);
         $user2 =  $users->where('id', 3);
-        $vacdate->users()->attach($user);
+        //$vacdate->users()->attach($user);
         $vacdate->users()->attach($user2);
 
         $vacdate1 = new \App\Models\Vacdate;

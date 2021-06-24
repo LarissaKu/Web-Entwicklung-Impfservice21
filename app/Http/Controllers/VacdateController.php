@@ -108,30 +108,6 @@ class VacdateController extends Controller
         }
     }
 
-    public function registerUser2(Request $request, int $userid) :JsonResponse {
-        DB::beginTransaction();
-        try {
-            $vacid = $request["id"];
-            $vacdate = Vacdate::where('id', $vacid)->first();
-            $user = User::where('user_id', $userid)->first();
-            if($user->registered == false) {
-                $user->registered = $user->registered = true;
-            } else {
-                return response()->json("Ist bereits registriert", 201);
-            }
-            $vacdate->maxpersons = $vacdate->maxpersons+1;
-            $vacdate->users()->attach($userid);
-            $vacdate->save();
-            $user->save();
-            DB::commit();
-            return response()->json(true, 201);
-        }
-        catch(\Exception $e) {
-            DB::rollBack();
-            return response()->json("Speichern der Registrierung ist fehlgeschlagen: ". $e->getMessage(), 420);
-        }
-    }
-
     public function registerUser(Request $request, int $id):JsonResponse{
         DB::beginTransaction();
         try{

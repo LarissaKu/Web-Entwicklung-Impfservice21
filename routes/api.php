@@ -29,13 +29,9 @@ Route::get('vacdates/{id}', [VacdateController::class, 'findById']);
 Route::get('vacplaces', [VacplaceController::class, 'index']);
 Route::get('vacplaces/{id}', [VacplaceController::class, 'findById']);
 
-//add users to vacdate TODO
 Route::put('vacdate/registration/{id}', [VacdateController::class, 'registerUser']);
 
-//get all users
 Route::get('user/{id}', [UserController::class, 'getUsersById']);
-
-//get user by id - für login -> user anzeigen zu impfung
 
 
 //Hier alle Routen rein geben, die nur für authentifizierte User zugänglich sein sollen
@@ -49,7 +45,7 @@ Route::group(['middleware'=>['api', 'auth.jwt']], function(){
     //delete vacdate
     Route::delete('vacdate/{id}', [VacdateController::class, 'delete']);
 
-    //update user dose
+    //change vaccination state -> vaccinated
     Route::put('vacdate/user/{user_id}', [UserController::class, 'changeVacState']);
 
     //logout
