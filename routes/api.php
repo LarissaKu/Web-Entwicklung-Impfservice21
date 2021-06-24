@@ -27,9 +27,10 @@ Route::get('vacdates', [VacdateController::class, 'index']);
 Route::get('vacdates/{id}', [VacdateController::class, 'findById']);
 
 Route::get('vacplaces', [VacplaceController::class, 'index']);
+Route::get('vacplaces/{id}', [VacplaceController::class, 'findById']);
 
 //add users to vacdate TODO
-Route::put('vacdate/registration/{id}', [VacdateController::class, 'addUsersToVacdate']);
+Route::put('vacdate/registration/{id}', [VacdateController::class, 'registerUser']);
 
 //get all users
 Route::get('user/{id}', [UserController::class, 'getUsersById']);

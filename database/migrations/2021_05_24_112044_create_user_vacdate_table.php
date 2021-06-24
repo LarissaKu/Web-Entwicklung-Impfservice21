@@ -14,12 +14,10 @@ class CreateUserVacdateTable extends Migration
     public function up()
     {
         Schema::create('user_vacdate', function (Blueprint $table) {
-            $table->bigInteger('user')->unsigned();
-            $table->foreign('user')->references('id')->on('users')->onDelete('cascade');
-            $table->bigInteger('vacdate')->unsigned();
-            $table->foreign('vacdate')->references('id')->on('vacdates')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('vacdate_id')->constrained()->onDelete('cascade');
             $table->timestamps();
-            $table->primary(['user','vacdate']);
+            $table->primary(['user_id','vacdate_id']);
         });
     }
 

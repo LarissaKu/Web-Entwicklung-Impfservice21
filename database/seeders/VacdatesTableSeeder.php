@@ -29,7 +29,7 @@ class VacdatesTableSeeder extends Seeder
         $vacdate->vaccine = "Moderna";
 
         //add vacplace via id
-        $vacdate->vacplaces()->associate(2);
+        $vacdate->vacplace()->associate(2);
         $vacdate->save();
 
         //add first vacdate
@@ -45,7 +45,7 @@ class VacdatesTableSeeder extends Seeder
         $vacdate1->maxpersons = 2;
         $vacdate1->vaccine = "Pfizer";
 
-        $vacdate1->vacplaces()->associate(2);
+        $vacdate1->vacplace()->associate(2);
         $vacdate1->save();
 
         $user3 =  $users->where('id', 1);
@@ -59,7 +59,7 @@ class VacdatesTableSeeder extends Seeder
         $vacdate2->maxpersons = 5;
         $vacdate2->vaccine = "Moderna";
 
-        $vacdate2->vacplaces()->associate(3);
+        $vacdate2->vacplace()->associate(3);
         $vacdate2->save();
 
         $user4 =  $users->where('id', 2);

@@ -22,7 +22,8 @@ class VacdateController extends Controller
     }
 
     public function findById(int $id){
-        $vacdate = Vacdate::where('id',$id)->with(['users', 'vacplace'])->first();
+        //$vacdate = Vacdate::where('id',$id)->with(['users', 'vacplace'])->first();
+        $vacdate = Vacdate::where('id',$id)->with(['vacplace'])->first();
         return $vacdate;
     }
 
@@ -104,6 +105,30 @@ class VacdateController extends Controller
     catch (\Exception $e){
         DB:rollBack();
         return response()->json('Löschen des Impftermins ist fehlgeschlagen: '. $e->getMessage(), 420);
+        }
+    }
+
+    public function registerUser(Request $request, int $userid) :JsonResponse {
+        DB::beginTransaction();
+        try {
+            $vacid = $request["id"];
+            $vacdate = Vacdate::where('id', $vacid)->first();
+            $user = User::where('id', $userid)->first();
+            if($user->vaccinated == false) {
+                $user->vaccinated = $user->vaccinated = true;
+            } else {
+                return response()->json("alreadyregistered", 201);
+            }
+            $vacdate->maxpersons = $vacdate->maxpersons+1;
+            $vacdate->users()->attach($userid);
+            $vacdate->save();
+            $user->save();
+            DB::commit();
+            return response()->json(true, 201);
+        }
+        catch(\Exception $e) {
+            DB::rollBack();
+            return response()->json("saving vaccination failed ". $e->getMessage(), 420);
         }
     }
 

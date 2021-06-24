@@ -13,6 +13,6 @@ class Vacplace extends Model
     protected $fillable = ['fedstate','zip','city','adress'];
 
     public function vacplace():HasMany{
-        return $this->hasMany(Vacdate::class, 'vacplace');
+        return $this->hasMany(Vacdate::class);
     }
 }

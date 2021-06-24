@@ -20,8 +20,7 @@ class CreateVacdatesTable extends Migration
             $table->string('end');
             $table->integer('maxpersons')->default(3);
             $table->string('vaccine')->default('Pfizer');
-            $table->bigInteger('vacplace')->unsigned();
-            $table->foreign('vacplace')->references('id')->on('vacplaces')->onDelete('cascade');
+            $table->foreignId('vacplace_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
