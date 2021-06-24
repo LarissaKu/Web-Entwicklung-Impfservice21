@@ -114,10 +114,10 @@ class VacdateController extends Controller
             $vacid = $request["id"];
             $vacdate = Vacdate::where('id', $vacid)->first();
             $user = User::where('id', $userid)->first();
-            if($user->vaccinated == false) {
-                $user->vaccinated = $user->vaccinated = true;
+            if($user->registered == false) {
+                $user->registered = $user->registered = true;
             } else {
-                return response()->json("alreadyregistered", 201);
+                return response()->json("Ist bereits registriert", 201);
             }
             $vacdate->maxpersons = $vacdate->maxpersons+1;
             $vacdate->users()->attach($userid);
@@ -128,7 +128,7 @@ class VacdateController extends Controller
         }
         catch(\Exception $e) {
             DB::rollBack();
-            return response()->json("saving vaccination failed ". $e->getMessage(), 420);
+            return response()->json("Speichern der Registrierung ist fehlgeschlagen: ". $e->getMessage(), 420);
         }
     }
 
