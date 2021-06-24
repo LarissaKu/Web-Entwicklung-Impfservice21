@@ -146,6 +146,7 @@ class VacdateController extends Controller
             if($vacdate != null && $user != null){
                 if($user->registered == false) {
                     $user->registered = $user->registered = true;
+                    $user->save();
                 } else {
                     return response()->json("Ist bereits registriert", 201);
                 }
