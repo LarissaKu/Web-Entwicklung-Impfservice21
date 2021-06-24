@@ -14,7 +14,7 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         $user = new \App\Models\User;
-        $user->gender = 2;
+        $user->gender = "weiblich";
         $user->firstname = "Susi";
         $user->lastname = "Maier";
         $user->birthday = "1998-10-05";
@@ -32,7 +32,7 @@ class UsersTableSeeder extends Seeder
         $user->save();
 
         $user1 = new \App\Models\User;
-        $user1->gender = 1;
+        $user1->gender = "männlich";
         $user1->firstname = "Max";
         $user1->lastname = "Zimmer";
         $user1->birthday = "1958-03-18";
@@ -50,7 +50,7 @@ class UsersTableSeeder extends Seeder
         $user1->save();
 
         $user2 = new \App\Models\User;
-        $user2->gender = 0;
+        $user2->gender = "weiblich";
         $user2->firstname = "Alex";
         $user2->lastname = "Schmidt";
         $user2->birthday = "2001-07-13";
@@ -62,13 +62,13 @@ class UsersTableSeeder extends Seeder
         $user2->city = "Perchtoldsdorf";
         $user2->adress = "Wienerstrasse 25/b";
         $user2->vaccinated = false;
-        $user2->registered = false;
+        $user2->registered = true;
         $user2->password = bcrypt('alexs');
         $user2->admin = false;
         $user2->save();
 
         $user3 = new \App\Models\User;
-        $user3->gender = 1;
+        $user3->gender = "männlich";
         $user3->firstname = "Hans";
         $user3->lastname = "Holzberger";
         $user3->birthday = "1994-08-15";
@@ -84,5 +84,24 @@ class UsersTableSeeder extends Seeder
         $user3->password = bcrypt('hansh');
         $user3->admin = true;
         $user3->save();
+
+
+        $user4 = new \App\Models\User;
+        $user4->gender = "weiblich";
+        $user4->firstname = "Eva";
+        $user4->lastname = "Lo";
+        $user4->birthday = "1987-03-12";
+        $user4->svnr = "7382 120387";
+        $user4->email = "eva@lo.at";
+        $user4->phone = "+43 650 4224418";
+        $user4->fedstate = "Niederösterreich";
+        $user4->zip = "2201";
+        $user4->city = "Amstetten";
+        $user4->adress = "Uferweg 32";
+        $user4->vaccinated = false;
+        $user4->registered = false;
+        $user4->password = bcrypt('eval');
+        $user4->admin = false;
+        $user4->save();
     }
 }

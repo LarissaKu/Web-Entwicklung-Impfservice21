@@ -62,9 +62,6 @@ class VacdatesTableSeeder extends Seeder
         $vacdate2->vacplace()->associate(3);
         $vacdate2->save();
 
-        $user4 =  $users->where('id', 2);
-        $vacdate2->users()->attach($user4);
-
         //'vacday','start','end','maxPersons','vaccine','vacplace','user_id'
 
         /*DB::table('vacdates')->insert([

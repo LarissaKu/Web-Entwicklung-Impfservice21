@@ -22,8 +22,8 @@ class VacdateController extends Controller
     }
 
     public function findById(int $id){
-        //$vacdate = Vacdate::where('id',$id)->with(['users', 'vacplace'])->first();
-        $vacdate = Vacdate::where('id',$id)->with(['vacplace'])->first();
+        $vacdate = Vacdate::where('id',$id)->with(['users', 'vacplace'])->first();
+        //$vacdate = Vacdate::where('id',$id)->with(['vacplace'])->first();
         return $vacdate;
     }
 
@@ -108,12 +108,12 @@ class VacdateController extends Controller
         }
     }
 
-    public function registerUser(Request $request, int $userid) :JsonResponse {
+    public function registerUser2(Request $request, int $userid) :JsonResponse {
         DB::beginTransaction();
         try {
             $vacid = $request["id"];
             $vacdate = Vacdate::where('id', $vacid)->first();
-            $user = User::where('id', $userid)->first();
+            $user = User::where('user_id', $userid)->first();
             if($user->registered == false) {
                 $user->registered = $user->registered = true;
             } else {
@@ -132,28 +132,27 @@ class VacdateController extends Controller
         }
     }
 
-    public function addUsersToVacdate(Request $request, int $id):JsonResponse{
+    public function registerUser(Request $request, int $id):JsonResponse{
         DB::beginTransaction();
         try{
-            $vacdate = Vacdate::with(['vacplace', 'users'])->where('id', $id)->first();
+            $vacdate = Vacdate::where('id',$id)->with(['users', 'vacplace'])->first();
+            //$vacdate = Vacdate::where('id', $id)->first();
 
             $request = $this->parseRequest($request);
             $uid = $request['user_id'];
 
             $user = User::where('id', $uid)->first();
 
-            if($vacdate != null){
-                if(count($vacdate['users']) != $vacdate['maxPersons']){
-                    if($user!= null){
-                        if(count($user['users']) == 0){
-                            $vacdate->users()->attach($user['id']);
+            if($vacdate != null && $user != null){
+                if($user->registered == false) {
+                    $user->registered = $user->registered = true;
+                } else {
+                    return response()->json("Ist bereits registriert", 201);
+                }
+
+                if(count($vacdate['users']) < $vacdate['maxpersons']){
+                            $vacdate->users()->attach($user);
                             $vacdate->save();
-                        } else{
-                            throw new \Exception('Benutzer ist bereits registiert');
-                        }
-                    } else{
-                        throw new \Exception('Benutzer existiert nicht');
-                    }
                 } else{
                     throw new \Exception('Die maximale Anzahl an Benutzern für das Impfdatum ist erreicht');
                 }
@@ -162,7 +161,7 @@ class VacdateController extends Controller
             }
 
             DB::commit();
-            $vacdate1 = Vacdate::with(['vacPlace', 'users'])->where('id', $id)->first();
+            $vacdate1 = Vacdate::with(['vacplace', 'users'])->where('id', $id)->first();
             return response()->json($vacdate1, 201);
         }
         catch (\Exception $e){
